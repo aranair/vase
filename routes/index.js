@@ -1,8 +1,6 @@
 var express = require('express');
 var moment = require('moment');
 var router = express.Router();
-var AU = require('ansi_up');
-var ansi_up = new AU.default;
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Log Search' });
@@ -74,7 +72,7 @@ router.post('/search', function (req, res) {
     for (var h of result.body.hits.hits) {
       if (h && h._source && h._source.log.match(regex)) {
         errorHits.push({
-          log: ansi_up.ansi_to_html(h._source.log)
+          log: h._source.log
         })
       }
     }
