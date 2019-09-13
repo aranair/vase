@@ -2,16 +2,13 @@ extends layout
 
 block content
   h1= title
-  p It is currently #{moment(Date.now()).format('MM/DD/YYYY HH:mm')}
-  p Please select customer and timeframe
-  form(action='/search', method='POST')
-    p
-      | Customer:
-      input(type='text', name='customer', value='')
-      |          From:
-      input(type='datetime-local', name='from_time', value=moment(Date.now()).subtract(15, 'minutes').format('YYYY-MM-DDTHH:mm'))
-      |          To:
-      input(type='datetime-local', name='to_time', value=moment().format('YYYY-MM-DDTHH:mm'))
-    input(type='submit', value='Submit')
+  include _form.pug
+  if hits.length > 0 && total_hits > 1000
+      p= "Total hits: " + total_hits + " Displaying " + from + " to " + to
+      if from > 0
+        include _previous_page.pug
+      if to < total_hits
+        include _next_page.pug
+  for h in hits
+    p= h.log
 
-  p= hits

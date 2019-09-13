@@ -1,0 +1,12 @@
+p It is currently #{moment(Date.now()).format('MM/DD/YYYY HH:mm')}
+p Please select customer and timeframe
+
+form(action='/', method='POST')
+  p
+    | Customer:
+    input(type='text', name='customer', value=customer)
+    |             From:
+    input(type='datetime-local', name='from_time', value=from_time)
+    |             To:
+    input(type='datetime-local', name='to_time', value=to_time)
+  input(type='submit', value='Submit')

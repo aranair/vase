@@ -1,8 +1,0 @@
-extends layout
-
-block content
-  h1= title
-  p to #[a(href="/") back to search]
-  for h in hits
-    h._source.log
-    p= h.log

@@ -3,16 +3,25 @@ var moment = require('moment');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Log Search' });
+  res.render('index', {
+    title: 'Log Search',
+    hits: [],
+    startTime: moment(Date.now()).subtract(15, 'minutes').format('YYYY-MM-DDTHH:mm'),
+    endTime: moment().format('YYYY-MM-DDTHH:mm')
+  });
 });
 
-router.post('/search', function (req, res) {
+router.post('/', function (req, res) {
   const ft = moment(req.body.from_time).utc();
   const searchIndex = 'logstash-' + ft.format('YYYY') + '.' + ft.format('MM') + '.' + ft.format('DD') + '*';
+  const size = 1000;
+  const fromIndex = req.body.from && parseInt(req.body.from) || 0;
+  const toIndex = fromIndex + size;
   const searchParams = {
     index: searchIndex,
     body: {
-      size: 1000,
+      from: req.body.from || 0,
+      size: size,
       sort: [
         {
           "@timestamp": {
@@ -71,14 +80,20 @@ router.post('/search', function (req, res) {
     var sentryRegex = new RegExp('.*sentry.*', 'i');
     for (var h of result.body.hits.hits) {
       if (h && h._source && h._source.log.match(regex)) {
-        errorHits.push({
-          log: h._source.log
-        })
+        errorHits.push({ log: h._source.log })
       }
     }
-    res.render('results', {
+
+    console.log(req.body.from_time)
+    res.render('index', {
       hits:  errorHits,
-      title: 'Results for ' + req.body.customer
+      title: 'Results for ' + req.body.customer,
+      from: fromIndex,
+      to: toIndex,
+      customer: req.body.customer || 'acme',
+      total_hits: result.body.hits.total,
+      from_time: req.body.from_time,
+      to_time: req.body.to_time
     });
   })
 
