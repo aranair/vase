@@ -2,6 +2,7 @@ extends layout
 
 block content
   h1= title
+  p to #[a(href="/") back to search]
   for h in hits
-    ansi_up.ansi_to_html(h._source.log)
+    h._source.log
     p= h.log
