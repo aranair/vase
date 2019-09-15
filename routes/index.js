@@ -1,13 +1,14 @@
 var express = require('express');
-var moment = require('moment');
+var moment = require('moment-timezone');
 var router = express.Router();
+const tz = 'America/New_York';
 
 router.get('/', function(req, res, next) {
   res.render('index', {
     title: 'Log Search',
     hits: [],
-    startTime: moment(Date.now()).subtract(15, 'minutes').format('YYYY-MM-DDTHH:mm'),
-    endTime: moment().format('YYYY-MM-DDTHH:mm')
+    from_time: moment().tz(tz).subtract(15, 'minutes').format('YYYY-MM-DDTHH:mm'),
+    to_time: moment().tz(tz).format('YYYY-MM-DDTHH:mm')
   });
 });
 

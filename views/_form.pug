@@ -1,10 +1,10 @@
-p It is currently #{moment(Date.now()).format('MM/DD/YYYY HH:mm')}
+p It is currently #{moment().tz('America/New_York').format('MM/DD/YYYY HH:mm')} (ET)
 p Please select customer and timeframe
 
 form(action='/', method='POST')
   p
     | Customer:
-    input(type='text', name='customer', value=customer)
+    input(type='text', name='customer', value=customer, placeholder='e.g. tiffany')
     |             From:
     input(type='datetime-local', name='from_time', value=from_time)
     |             To:
