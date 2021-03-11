@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.3.0",
-    "ansi_up": "^4.0.4",
+    "ansi_up": "^5.0.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
